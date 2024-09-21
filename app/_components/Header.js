@@ -57,7 +57,7 @@ const Header = () => {
             className="hidden rounded-md bg-gray-100 px-5 py-2.5 text-sm font-medium text-black transition hover:text-teal-600/75 sm:block"
             href="#"
           >
-            Register
+            Sign up
           </a>
         </div>
 
