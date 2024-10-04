@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import SideNav from './_components/SideNav';
 import Navbar from './_components/Navbar';
 
-const layout = ({ children }) => {
+const Layout = ({ children }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -23,4 +23,4 @@ const layout = ({ children }) => {
   );
 };
 
-export default layout;
+export default Layout;
