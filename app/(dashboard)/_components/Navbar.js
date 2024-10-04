@@ -1,4 +1,6 @@
+"use client"
 import React from 'react';
+import { UserButton } from '@clerk/nextjs'
 
 const Navbar = ({ toggleMenu }) => {
   return (
@@ -10,7 +12,7 @@ const Navbar = ({ toggleMenu }) => {
         <div className="w-6 h-1 bg-gray-600"></div>
       </button>
       <div className="text-red">Navbar</div>
-      <button className="text-primary">User Profile</button>
+     <UserButton/>
     </div>
   );
 };

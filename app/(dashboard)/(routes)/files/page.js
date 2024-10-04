@@ -1,11 +1,10 @@
-
-import { UserButton } from '@clerk/nextjs'
+"use client"
 import React from 'react'
 
 const Files = () => {
   return (
     <div>Files
-         <UserButton  />
+       
     </div>
   )
 }
