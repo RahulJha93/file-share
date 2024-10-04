@@ -1,3 +1,6 @@
-export default{
-    desc : 'Drap your file'
-}
+const constants = {
+    desc: "Some description",
+  };
+  
+  export default constants;
+  

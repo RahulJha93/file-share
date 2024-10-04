@@ -1,3 +1,4 @@
+"use client"
 import React from 'react';
 import { FaUpload, FaShareAlt, FaArrowAltCircleUp } from 'react-icons/fa';
 
