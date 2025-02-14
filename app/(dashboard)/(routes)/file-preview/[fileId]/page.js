@@ -20,6 +20,23 @@ const FilePreview = () => {
     alert("Email sent!");
   };
 
+  const storePassword =async () => {
+    if(password) {
+    const { error: updateError } = await supabase
+      .from("file-share") // Replace with your table name
+      .update({ password: password || "" })
+      .eq("file_id", fileData.file_id);
+
+    if (updateError) {
+      console.error("Error updating password:", updateError.message);
+      alert("Error updating password");
+      return;
+    }
+
+    alert("File uploaded, saved, and password updated successfully!");
+  }
+  }
+
   const fetchFileData = async (fileId) => {
     if (!fileId) {
         console.error("No fileId provided");
@@ -109,7 +126,7 @@ const FilePreview = () => {
                 onChange={(e) => setPassword(e.target.value)}
                 className="border rounded px-2 py-1 w-full"
               />
-              <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded">
+              <button className="mt-2 bg-blue-500 text-white px-4 py-2 rounded" onClick={storePassword}>
                 Save
               </button>
             </div>

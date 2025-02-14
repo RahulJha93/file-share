@@ -1,19 +1,26 @@
 "use client";
 import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../supabaseClient";
+import { useUser } from "@clerk/nextjs";
+import { useRouter } from 'next/navigation';
+
 const Files = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [files, setFiles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const {user} = useUser()
+  const router = useRouter();
+  
+  const navigateFile = (id) => {
+    router.push(`/file-preview/${id}`);
 
-  // const filteredFiles = files.filter((file) =>
-  //   file.name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
+  }
+
 
   useEffect(() => {
     const fetchFiles = async () => {
       try {
-        const { data, error } = await supabase.from("file-share").select("*"); 
+        const { data, error } = await supabase.from("file-share").select("*").eq('user_email', user?.primaryEmailAddress?.emailAddress); 
         if(data){
           console.log(data);
         }
@@ -30,8 +37,11 @@ const Files = () => {
     };
 
     fetchFiles();
-  }, []);
+  }, [user]);
 
+   if(loading){
+    return <div>Loading...</div>
+  }
   return (
     <div className="p-4">
       <h1 className="text-2xl font-bold mb-4">Files</h1>
@@ -65,19 +75,20 @@ const Files = () => {
         </thead>
         <tbody>
           {files.map((file) => (
-            <tr key={file.id}>
+            <tr key={file.file_id}>
               <td className="border border-gray-300 px-4 py-2">{file.file_name}</td>
               <td className="border border-gray-300 px-4 py-2">{file.file_type}</td>
               <td className="border border-gray-300 px-4 py-2">{file.file_size}</td>
               <td className="border border-gray-300 px-4 py-2">
-                <a
-                  href={file}
+                <button
+                  // href={file}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-blue-500 hover:underline"
+                  onClick={()=>navigateFile(file.file_id)}
                 >
                   View
-                </a>
+                </button>
               </td>
             </tr>
           ))}
