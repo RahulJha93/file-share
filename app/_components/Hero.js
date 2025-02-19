@@ -2,32 +2,38 @@
 import { useAuth, useClerk } from '@clerk/clerk-react'; // Clerk hooks
 import Constant from '../_utils/Constant';
 import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { Loader } from 'lucide-react';
+
 
 const Hero = () => {
   
     const { isSignedIn } = useAuth(); // Check if the user is logged in
     const { redirectToSignIn } = useClerk(); // Access Clerk methods
     const router = useRouter();
+    const [loading,setLoading] = useState(false);
   
     const handleGetStarted = () => {
+      setLoading(true);
       if (isSignedIn) {
         // If user is signed in, navigate to the /files page
-        router.push('/files');
+        router.push('/upload');
       } else {
         // Otherwise, redirect to the sign-in page
-        redirectToSignIn({ redirectUrl: '/files' });
+        redirectToSignIn({ redirectUrl: '/upload' });
       }
+      setLoading(false);
     };
   return (
     <section className="bg-gray-50">
     <div className="mx-auto max-w-screen-xl px-4 py-32 lg:flex lg:h-screen lg:items-center">
       <div className="mx-auto max-w-xl text-center">
         <h1 className="text-3xl font-extrabold sm:text-5xl">
-          Upload, Save and easily Share your files in one place
-          <strong className="font-extrabold text-red-700 sm:block"> </strong>
+          <span className="font-extrabold text-[#007DFC]">Upload, Save</span> and easily <span className="font-extrabold text-[#007DFC]">Share</span> your files in one place
+          {/* <strong className="font-extrabold text-red-700 sm:block"> </strong> */}
         </h1>
   
-        <p className="mt-4 sm:text-xl/relaxed">
+        <p className="mt-4 sm:text-xl/relaxed text-gray-500">
           {Constant.desc}
         </p>
   
@@ -40,10 +46,10 @@ const Hero = () => {
             Get Started
           </a> */}
             <button
-              classNameName="block w-full rounded bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
+              className="block w-full rounded bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
               onClick={handleGetStarted} // Call the function when clicked
             >
-              Get Started
+            {loading ? "Loading": "Get Started"}  
             </button>
 
   

@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from "react";
 import {supabase} from './../../../../../supabaseClient'
 import { useParams } from 'next/navigation'
+import { toast } from "react-toastify";
 const FilePreview = () => {
   const params = useParams()
   const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
@@ -13,11 +14,11 @@ const FilePreview = () => {
   const copyToClipboard = () => {
     navigator.clipboard.writeText(fileData?.short_url);
     console.log(shortUrl)
-    alert("Short URL copied to clipboard!");
+    toast.success("Short URL copied to clipboard!");
   };
 
   const handleSendMail = () => {
-    alert("Email sent!");
+    toast.error("This Service is down !");
   };
 
   const storePassword =async () => {
@@ -29,11 +30,11 @@ const FilePreview = () => {
 
     if (updateError) {
       console.error("Error updating password:", updateError.message);
-      alert("Error updating password");
+      toast.error("Error updating password");
       return;
     }
 
-    alert("File uploaded, saved, and password updated successfully!");
+    toast.success("password updated successfully!");
   }
   }
 
@@ -81,7 +82,7 @@ const FilePreview = () => {
           />
           <h2 className="text-lg font-bold text-center">Example Image</h2>
           <p className="text-sm text-gray-500 text-center">Type: {fileData?.file_type}</p>
-          <p className="text-sm text-gray-500 text-center">Size: {fileData?.file_size/1024/1024}</p>
+          <p className="text-sm text-gray-500 text-center">Size: {(fileData?.file_size/1024/1024).toFixed(2)} mb</p>
         </div>
       </div>
 

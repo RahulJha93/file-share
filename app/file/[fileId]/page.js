@@ -2,6 +2,10 @@
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import {supabase} from './../../../supabaseClient'
+import Image from "next/image";
+import logo from "../../../public/logo.svg";
+import file from "../../../public/file.png"
+import { toast } from "react-toastify";
 const FileView = () => {
   const params = useParams();
   const [password, setPassword] = useState("");
@@ -18,13 +22,12 @@ const FileView = () => {
         .single();
 
       if (error) {
-        console.error("Error validating password:", error);
-        alert("Error fetching file details");
+        toast.error("Error fetching file details");
         return;
       }
 
       if (data.password !== password) {
-        alert("Incorrect password");
+        toast.error("Incorrect password");
         return;
       }
 
@@ -47,8 +50,7 @@ const FileView = () => {
       link.click();
       link.remove();
     } catch (error) {
-      console.error("Error downloading file:", error);
-      alert("Error downloading the file!");
+      TableOfContents.error("Error downloading the file!");
     }
   };
 
@@ -66,9 +68,7 @@ const FileView = () => {
         .select("file_name, file_size, file_type")
         .eq("file_id", fileId) // Replace "id" with the actual field you're querying
         .single(); // Fetch a single row if you expect a unique match
-      if (data) {
-        console.log(data);
-      }
+     
       if (error) {
         console.error("Error fetching file data:", error);
       } else {
@@ -92,14 +92,14 @@ const FileView = () => {
   return (
     <div className="flex justify-center items-center min-h-screen bg-gray-100">
       <div className="bg-white shadow-md rounded-lg p-6 w-96 text-center">
-        <h2 className="text-blue-600 font-bold text-lg mb-2">
-          Tubeguruji{" "}
+        <div className="text-blue-600 font-bold text-lg mb-2 flex justify-center flex-col items-center gap-2">
+         <Image src={logo} width={150} height={150} alt='no-text'/>
           <span className="text-gray-700">Shared the file with You</span>
-        </h2>
+        </div>
         <p className="text-gray-500 text-sm mb-6">Find File details below</p>
         <div className="flex justify-center mb-6">
-          <img
-            src="https://via.placeholder.com/100" // Replace with your file icon/image
+          <Image
+            src={file} // Replace with your file icon/image
             alt="File Icon"
             className="w-20"
           />
@@ -115,14 +115,10 @@ const FileView = () => {
             onChange={(e) => setPassword(e.target.value)}
             className="w-full border rounded-lg px-3 py-2 text-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-400 mb-4"
           />
+          <h1 className="mb-4 text-left text-red-600 text-xs">Note : If no password, click directly Download</h1>
           <button
             onClick={validatePasswordAndDownload}
-            disabled={!password}
-            className={`w-full py-2 rounded-lg text-white font-medium ${
-              password
-                ? "bg-blue-500 hover:bg-blue-600"
-                : "bg-gray-300 cursor-not-allowed"
-            }`}
+            className={`w-full py-2 rounded-lg text-white font-medium bg-blue-500 hover:bg-blue-600`}
           >
             <span className="flex items-center justify-center">
               <svg

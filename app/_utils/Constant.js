@@ -1,5 +1,5 @@
 const constants = {
-    desc: "Some description",
+    desc: "Drag and drop your file directly on our cloud and share it with your friends secuarely with password and send it on email",
   };
   
   export default constants;

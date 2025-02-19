@@ -4,24 +4,27 @@ import FilePreview from './_components/FilePreview'
 import {supabase} from './../../../../supabaseClient'
 import { useUser } from '@clerk/nextjs'
 import { useRouter } from 'next/navigation';
+import { toast } from "react-toastify";
 
 const FileUploadCard = () => {
   const {user} = useUser()
   const [file, setFile] = useState(null);
   const router = useRouter();
+  const [loading,setLoading] = useState(false)
 
   const handleFileChange = (e) => {
     const selectedFile = e.target.files[0];
     if (selectedFile && selectedFile.size > 2000000) {
-      alert("File size exceeds 2MB!");
+      toast.error("File size exceeds 2MB!");
       return;
     }
     setFile(selectedFile);
   };
 
   const handleUpload = async () => {
+    setLoading(true)
     if(!file){
-      alert("Please select a file")
+      toast.error("Please select a file")
       return;
     }
     try {
@@ -30,8 +33,7 @@ const FileUploadCard = () => {
         .upload(`uploads/${file.name}`, file)
   
       if (error) {
-        console.error("Error uploading file:", error.message)
-        alert("Error uploading file")
+        toast.error("Error uploading file")
         return
       }
       const { error: dbError } = await supabase
@@ -50,17 +52,17 @@ const FileUploadCard = () => {
         },
       ]);
       if (dbError) {
-        console.error("Error saving file info to database:", dbError.message);
-        alert("Error saving file info");
+        toast.error("Duplicate file");
         return;
       }
   
-      alert("File uploaded and saved successfully!");
+      toast.success("File uploaded and saved successfully!");
       router.push(`/file-preview/${data.id}`);
 
     } catch (error) {
-      console.error("Unexpected error:", error)
-      alert("Unexpected error occurred")
+      toast.error("Unexpected error occurred")
+    }finally{
+      setLoading(false);
     }
 
   }
@@ -115,7 +117,7 @@ const FileUploadCard = () => {
               : "bg-gray-400 cursor-not-allowed"
           }`}
         >
-          Upload
+          {loading ? "Uploading..." : "Upload"}
         </button>
       </div>
     </div>

@@ -47,7 +47,7 @@ const Files = () => {
       <h1 className="text-2xl font-bold mb-4">Files</h1>
       
       {/* Search Bar */}
-      <div className="mb-4 flex">
+      {/* <div className="mb-4 flex">
         <input
           type="text"
           placeholder="Search files..."
@@ -61,7 +61,7 @@ const Files = () => {
         >
           Search
         </button>
-      </div>
+      </div> */}
 
       {/* Files Table */}
       <table className="min-w-full border-collapse border border-gray-300">
@@ -78,7 +78,7 @@ const Files = () => {
             <tr key={file.file_id}>
               <td className="border border-gray-300 px-4 py-2">{file.file_name}</td>
               <td className="border border-gray-300 px-4 py-2">{file.file_type}</td>
-              <td className="border border-gray-300 px-4 py-2">{file.file_size}</td>
+              <td className="border border-gray-300 px-4 py-2">{(file.file_size/1024/1024).toFixed(2)} mb</td>
               <td className="border border-gray-300 px-4 py-2">
                 <button
                   // href={file}

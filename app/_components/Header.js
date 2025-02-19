@@ -1,7 +1,27 @@
+"use client"
+import { useAuth, useClerk } from '@clerk/nextjs';
 import Image from 'next/image'
-import React from 'react'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation';
+import React, { useState } from 'react'
 
 const Header = () => {
+  const { isSignedIn } = useAuth(); // Check if the user is logged in
+  const { redirectToSignIn } = useClerk(); // Access Clerk methods
+  const router = useRouter();
+  const [loading,setLoading] = useState(false);
+
+  const handleGetStarted = () => {
+    setLoading(true);
+    if (isSignedIn) {
+      // If user is signed in, navigate to the /files page
+      router.push('/upload');
+    } else {
+      // Otherwise, redirect to the sign-in page
+      redirectToSignIn({ redirectUrl: '/upload' });
+    }
+    setLoading(false);
+  };
   return (
     <>
         <header className="bg-white">
@@ -12,49 +32,33 @@ const Header = () => {
       <nav aria-label="Global" className="hidden md:block">
         <ul className="flex items-center gap-6 text-sm">
           <li>
-            <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Home </a>
+            <Link className="text-gray-500 transition hover:text-gray-500/75" href="/"> Home </Link>
           </li>
 
           <li>
-            <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Upload </a>
+            <Link className="text-gray-500 transition hover:text-gray-500/75"  href="/upload"> Upload </Link>
           </li>
 
-          <li>
-            <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> About Us </a>
-          </li>
+          {/* <li>
+          <Link className="text-gray-500 transition hover:text-gray-500/75"  href="/files"> Files </Link>
+          </li> */}
 
           <li>
-            <a className="text-gray-500 transition hover:text-gray-500/75" href="#"> Contact Us </a>
+            <a className="text-gray-500 transition hover:text-gray-500/75" href="https://raahuljha.vercel.app/"> Contact Us </a>
           </li>
         </ul>
       </nav>
 
       <div className="flex items-center gap-4">
         <div className="sm:flex sm:gap-4">
-          <a
-            className="block rounded-md bg-primary px-5 py-2.5 text-sm font-medium text-white transition hover:bg-teal-700"
-            href="#"
-          >
-            Get Started
-          </a>
+        <button
+              className="block w-full rounded bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
+              onClick={handleGetStarted} // Call the function when clicked
+            >
+            {loading ? "Loading": "Get Started"}  
+            </button>
 
         </div>
-
-        <button
-          className="block rounded bg-gray-100 p-2.5 text-gray-600 transition hover:text-gray-600/75 md:hidden"
-        >
-          <span className="sr-only">Toggle menu</span>
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            className="size-5"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-            strokeWidth="2"
-          >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M4 6h16M4 12h16M4 18h16" />
-          </svg>
-        </button>
       </div>
     </div>
   </div>
