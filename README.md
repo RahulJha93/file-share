@@ -1,8 +1,22 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Share Panda - File Sharing Platform
+
+Share Panda is a secure and user-friendly file-sharing platform that allows you to upload files, share short URLs with friends, protect them with passwords, or send them directly via email. Built using modern technologies like [Clerk](https://clerk.dev/), [Supabase](https://supabase.com/), [Next.js](https://nextjs.org/), and [Tailwind CSS](https://tailwindcss.com/).
+
+## Features
+
+- **File Upload**: Upload files securely and efficiently.
+- **Short URL Sharing**: Generate a short URL for your uploaded files for easy sharing.
+- **Password Protection**: Protect shared files with a password to ensure secure access.
+- **Direct Email Sharing**: Send files directly to recipients via email.
+- **User Authentication**: Seamless authentication and user management with Clerk.
+- **Scalable Backend**: Powered by Supabase for robust and scalable backend services.
+- **Modern UI**: Built with Next.js and styled using Tailwind CSS for a sleek and responsive design.
 
 ## Getting Started
 
-First, run the development server:
+### Development Server
+
+To start the development server, run one of the following commands:
 
 ```bash
 npm run dev
@@ -14,23 +28,72 @@ pnpm dev
 bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Once the server is running, open your browser and navigate to [http://localhost:3000](http://localhost:3000) to view the application.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+### Editing the Application
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+You can begin editing the application by modifying the `app/page.js` file. Any changes made will automatically update in the browser.
 
-## Learn More
+## Environment Setup
 
-To learn more about Next.js, take a look at the following resources:
+Create a `.env.local` file in the root of your project and add the following environment variables:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```env
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=
+CLERK_SECRET_KEY=
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+Replace the placeholders with your actual API keys and configuration values.
 
-## Deploy on Vercel
+## Installation
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+1. Clone the repository:
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+   ```bash
+   git clone https://github.com/your-username/share-panda.git
+   cd share-panda
+   ```
+
+2. Install dependencies:
+
+   ```bash
+   npm install
+   # or
+yarn install
+   ```
+
+3. Set up environment variables as described above.
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+## Documentation
+
+To learn more about the technologies used in this project, refer to the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs): Comprehensive guide on features, APIs, and best practices.
+- [Tailwind CSS Documentation](https://tailwindcss.com/docs): Learn how to style your application.
+- [Clerk Documentation](https://clerk.dev/docs): Guide to implementing authentication.
+- [Supabase Documentation](https://supabase.com/docs): Learn about backend services and database integration.
+
+## Deployment
+
+Deploy your application using the [Vercel Platform](https://vercel.com/) for an optimized and scalable hosting solution.
+
+For more information, visit the [Next.js deployment documentation](https://nextjs.org/docs/deployment).
+
+## Contributing
+
+Contributions and feedback are welcome! Check out the [GitHub repository](https://github.com/your-username/share-panda) to report issues, suggest improvements, or contribute to the project.
+
+---
+
+Happy sharing with Share Panda!
+
