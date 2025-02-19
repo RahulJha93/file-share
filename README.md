@@ -54,7 +54,7 @@ Replace the placeholders with your actual API keys and configuration values.
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/share-panda.git
+   git clone [https://github.com/your-username/share-panda.git](https://github.com/RahulJha93/file-share.git)
    cd share-panda
    ```
 
