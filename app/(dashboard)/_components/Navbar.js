@@ -11,7 +11,7 @@ const Navbar = ({ toggleMenu }) => {
         <div className="w-6 h-1 bg-gray-600 mb-1"></div>
         <div className="w-6 h-1 bg-gray-600"></div>
       </button>
-      <div className="text-red">Navbar</div>
+      {/* <div className="text-red">Navbar</div> */}
      <UserButton/>
     </div>
   );

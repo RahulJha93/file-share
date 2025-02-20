@@ -52,7 +52,7 @@ const Header = () => {
       <div className="flex items-center gap-4">
         <div className="sm:flex sm:gap-4">
         <button
-              className="block w-full rounded bg-primary px-12 py-3 text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
+              className="block w-full rounded bg-primary px-12 md:py-3 md:text-sm font-medium text-white shadow hover:bg-blue-700 focus:outline-none focus:ring active:bg-red-500 sm:w-auto"
               onClick={handleGetStarted} // Call the function when clicked
             >
             {loading ? "Loading": "Get Started"}  
