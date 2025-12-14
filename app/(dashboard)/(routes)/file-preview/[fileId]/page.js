@@ -4,6 +4,7 @@ import {supabase} from './../../../../../supabaseClient'
 import { useParams } from 'next/navigation'
 import { toast } from "react-toastify";
 import { Copy, Lock, Mail, Download, Eye } from 'lucide-react';
+import Image from 'next/image';
 const FilePreview = () => {
   const params = useParams()
   const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
@@ -118,9 +119,11 @@ const FilePreview = () => {
                 {/* File Preview */}
                 <div className="relative">
                   {fileData?.file_type?.startsWith('image/') ? (
-                    <img
+                    <Image
                       src={fileData?.file_url}
                       alt={fileData?.file_name || 'File Preview'}
+                      width={400}
+                      height={192}
                       className="w-full h-48 object-cover rounded-lg border"
                     />
                   ) : (

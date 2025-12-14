@@ -160,7 +160,7 @@ const Hero = () => {
                 ))}
               </div>
               <p className="text-muted-foreground mb-4">
-                "Share Panda makes file sharing incredibly easy. The interface is clean and the upload speed is amazing."
+                &quot;Share Panda makes file sharing incredibly easy. The interface is clean and the upload speed is amazing.&quot;
               </p>
               <div className="font-semibold">Sarah Johnson</div>
               <div className="text-sm text-muted-foreground">Designer</div>
@@ -172,7 +172,7 @@ const Hero = () => {
                 ))}
               </div>
               <p className="text-muted-foreground mb-4">
-                "Perfect for our team collaboration. Password protection gives us peace of mind for sensitive documents."
+                &quot;Perfect for our team collaboration. Password protection gives us peace of mind for sensitive documents.&quot;
               </p>
               <div className="font-semibold">Mike Chen</div>
               <div className="text-sm text-muted-foreground">Developer</div>
@@ -184,7 +184,7 @@ const Hero = () => {
                 ))}
               </div>
               <p className="text-muted-foreground mb-4">
-                "The short URLs feature is a game changer. I can share files with clients so easily now."
+                &quot;The short URLs feature is a game changer. I can share files with clients so easily now.&quot;
               </p>
               <div className="font-semibold">Emily Davis</div>
               <div className="text-sm text-muted-foreground">Marketing Manager</div>
