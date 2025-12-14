@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "../../../../supabaseClient";
 import { useUser } from "@clerk/nextjs";
 import { useRouter } from 'next/navigation';
+import { Eye, File, Search, Loader2 } from 'lucide-react';
 
 const Files = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -13,9 +14,7 @@ const Files = () => {
   
   const navigateFile = (id) => {
     router.push(`/file-preview/${id}`);
-
   }
-
 
   useEffect(() => {
     const fetchFiles = async () => {
@@ -27,7 +26,7 @@ const Files = () => {
         if (error) {
           console.error("Error fetching files:", error);
         } else {
-          setFiles(data);
+          setFiles(data || []);
         }
       } catch (err) {
         console.error("Unexpected error fetching files:", err);
@@ -36,67 +35,116 @@ const Files = () => {
       }
     };
 
-    fetchFiles();
+    if (user?.primaryEmailAddress?.emailAddress) {
+      fetchFiles();
+    }
   }, [user]);
 
-   if(loading){
-    return <div>Loading...</div>
+  const filteredFiles = files.filter(file => 
+    file.file_name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  if(loading){
+    return (
+      <div className="flex items-center justify-center h-64">
+        <Loader2 className="h-8 w-8 animate-spin" />
+      </div>
+    )
   }
+
   return (
-    <div className="p-4">
-      <h1 className="text-2xl font-bold mb-4">Files</h1>
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h1 className="text-3xl font-bold tracking-tight">Files</h1>
+      </div>
       
       {/* Search Bar */}
-      {/* <div className="mb-4 flex">
-        <input
-          type="text"
-          placeholder="Search files..."
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="border border-gray-300 rounded-lg p-2 flex-grow"
-        />
-        <button
-          onClick={() => console.log("Search initiated for:", searchTerm)}
-          className="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-        >
-          Search
-        </button>
-      </div> */}
+      <div className="flex items-center space-x-2">
+        <div className="relative flex-1 max-w-md">
+          <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
+          <input
+            type="text"
+            placeholder="Search files..."
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            className="flex h-10 w-full rounded-md border border-input bg-background px-10 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+          />
+        </div>
+      </div>
 
       {/* Files Table */}
-      <table className="min-w-full border-collapse border border-gray-300">
-        <thead>
-          <tr className="bg-gray-100">
-            <th className="border border-gray-300 px-4 py-2">Filename</th>
-            <th className="border border-gray-300 px-4 py-2">Type</th>
-            <th className="border border-gray-300 px-4 py-2">Size</th>
-            <th className="border border-gray-300 px-4 py-2">View</th>
-          </tr>
-        </thead>
-        <tbody>
-          {files.map((file) => (
-            <tr key={file.file_id}>
-              <td className="border border-gray-300 px-4 py-2">{file.file_name}</td>
-              <td className="border border-gray-300 px-4 py-2">{file.file_type}</td>
-              <td className="border border-gray-300 px-4 py-2">{(file.file_size/1024/1024).toFixed(2)} mb</td>
-              <td className="border border-gray-300 px-4 py-2">
-                <button
-                  // href={file}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="text-blue-500 hover:underline"
-                  onClick={()=>navigateFile(file.file_id)}
-                >
-                  View
-                </button>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+      <div className="rounded-md border">
+        <div className="relative w-full overflow-auto">
+          <table className="w-full caption-bottom text-sm">
+            <thead className="[&_tr]:border-b">
+              <tr className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Filename
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Type
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Size
+                </th>
+                <th className="h-12 px-4 text-left align-middle font-medium text-muted-foreground [&:has([role=checkbox])]:pr-0">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody className="[&_tr:last-child]:border-0">
+              {filteredFiles.length > 0 ? (
+                filteredFiles.map((file) => (
+                  <tr key={file.file_id} className="border-b transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                      <div className="flex items-center gap-3">
+                        <File className="h-4 w-4 text-muted-foreground" />
+                        <span className="font-medium">{file.file_name}</span>
+                      </div>
+                    </td>
+                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                      <span className="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
+                        {file.file_type}
+                      </span>
+                    </td>
+                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0 text-muted-foreground">
+                      {(file.file_size/1024/1024).toFixed(2)} MB
+                    </td>
+                    <td className="p-4 align-middle [&:has([role=checkbox])]:pr-0">
+                      <button
+                        onClick={() => navigateFile(file.file_id)}
+                        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 border border-input bg-background hover:bg-accent hover:text-accent-foreground h-8 px-3"
+                      >
+                        <Eye className="h-4 w-4 mr-1" />
+                        View
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan={4} className="h-24 text-center">
+                    <div className="flex flex-col items-center justify-center space-y-2">
+                      <File className="h-8 w-8 text-muted-foreground" />
+                      <p className="text-muted-foreground">
+                        {searchTerm ? 'No files match your search.' : 'No files found.'}
+                      </p>
+                    </div>
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
 
-      {files.length === 0 && (
-        <p className="text-gray-500 mt-4">No files found.</p>
+      {/* File Count */}
+      {filteredFiles.length > 0 && (
+        <div className="flex items-center justify-between text-sm text-muted-foreground">
+          <div>
+            Showing {filteredFiles.length} of {files.length} file{files.length !== 1 ? 's' : ''}
+          </div>
+        </div>
       )}
     </div>
   );

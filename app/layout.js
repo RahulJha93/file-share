@@ -1,10 +1,13 @@
-import { Inter, Outfit } from "next/font/google";
+import { Inter, Poppins } from "next/font/google";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const inter = Outfit({ subsets: ["latin"] });
+const poppins = Poppins({ 
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600", "700"]
+});
 
 export const metadata = {
   title: "Share Panda",
@@ -14,8 +17,21 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
-      <html lang="en">
-        <body className={inter.className}>
+      <html lang="en" suppressHydrationWarning>
+        <head>
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                try {
+                  if (localStorage.getItem('darkMode') === 'true') {
+                    document.documentElement.classList.add('dark')
+                  }
+                } catch (e) {}
+              `,
+            }}
+          />
+        </head>
+        <body className={poppins.className}>
           <ToastContainer position="top-center" theme="dark" />
           {children}
         </body>

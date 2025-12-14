@@ -11,13 +11,15 @@ const Layout = ({ children }) => {
   };
 
   return (
-    <div className="flex flex-col h-full">
-      {/* Navbar receives the toggleMenu prop */}
-      <Navbar toggleMenu={toggleMenu} />
-      <div className="flex flex-row h-full">
-        {/* SideNav receives both isOpen and toggleMenu as toggleSidebar */}
+    <div className="flex flex-col h-screen bg-background">
+      <div className="flex flex-1">
         <SideNav isOpen={isOpen} toggleSidebar={toggleMenu} />
-        <div className="flex-grow md:ml-64 p-4">{children}</div>
+        <div className="flex flex-col flex-1">
+          <Navbar toggleMenu={toggleMenu} />
+          <main className="flex-1 p-6 overflow-auto">
+            {children}
+          </main>
+        </div>
       </div>
     </div>
   );
