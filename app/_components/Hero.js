@@ -24,12 +24,12 @@ const Hero = () => {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="container relative">
+      <section className="container relative dot-pattern">
         <div className="mx-auto flex max-w-[980px] flex-col items-center gap-2 py-8 md:py-12 md:pb-8 lg:py-24 lg:pb-20">
           <div className="inline-flex items-center rounded-lg bg-muted px-3 py-1 text-sm font-medium">
             🎉{" "}
             <span className="ml-1 hidden md:block">
-              Introducing Share Panda v2.0
+              Introducing File Share v2.0
             </span>
           </div>
           <h1 className="text-center text-3xl font-bold leading-tight tracking-tighter md:text-6xl lg:leading-[1.1]">
@@ -52,25 +52,6 @@ const Hero = () => {
               <Github className="mr-2 h-4 w-4" />
               GitHub
             </button>
-          </div>
-        </div>
-        
-        {/* Hero Image/Demo Section */}
-        <div className="relative mx-auto max-w-5xl mb-20">
-          <div className="overflow-hidden rounded-lg border bg-background shadow-2xl">
-            <div className="flex h-[400px] items-center justify-center bg-gradient-to-r from-blue-50 to-indigo-100 dark:from-gray-900 dark:to-gray-800">
-              <div className="text-center space-y-4">
-                <div className="mx-auto w-20 h-20 bg-primary rounded-2xl flex items-center justify-center">
-                  <Upload className="w-10 h-10 text-primary-foreground" />
-                </div>
-                <h3 className="text-2xl font-semibold text-muted-foreground">
-                  Upload & Share Files
-                </h3>
-                <p className="text-muted-foreground max-w-md">
-                  Drag and drop your files here or click to browse
-                </p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -160,10 +141,17 @@ const Hero = () => {
                 ))}
               </div>
               <p className="text-muted-foreground mb-4">
-                &quot;Share Panda makes file sharing incredibly easy. The interface is clean and the upload speed is amazing.&quot;
+                &quot;File Share makes file sharing incredibly easy. The interface is clean and the upload speed is amazing.&quot;
               </p>
-              <div className="font-semibold">Sarah Johnson</div>
-              <div className="text-sm text-muted-foreground">Designer</div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-pink-400 to-purple-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-semibold text-sm">SJ</span>
+                </div>
+                <div>
+                  <div className="font-semibold">Sarah Johnson</div>
+                  <div className="text-sm text-muted-foreground">Designer</div>
+                </div>
+              </div>
             </div>
             <div className="border rounded-lg p-6">
               <div className="flex items-center mb-4">
@@ -174,8 +162,15 @@ const Hero = () => {
               <p className="text-muted-foreground mb-4">
                 &quot;Perfect for our team collaboration. Password protection gives us peace of mind for sensitive documents.&quot;
               </p>
-              <div className="font-semibold">Mike Chen</div>
-              <div className="text-sm text-muted-foreground">Developer</div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-blue-400 to-cyan-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-semibold text-sm">MC</span>
+                </div>
+                <div>
+                  <div className="font-semibold">Mike Chen</div>
+                  <div className="text-sm text-muted-foreground">Developer</div>
+                </div>
+              </div>
             </div>
             <div className="border rounded-lg p-6">
               <div className="flex items-center mb-4">
@@ -186,8 +181,15 @@ const Hero = () => {
               <p className="text-muted-foreground mb-4">
                 &quot;The short URLs feature is a game changer. I can share files with clients so easily now.&quot;
               </p>
-              <div className="font-semibold">Emily Davis</div>
-              <div className="text-sm text-muted-foreground">Marketing Manager</div>
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 bg-gradient-to-r from-green-400 to-emerald-500 rounded-full flex items-center justify-center">
+                  <span className="text-white font-semibold text-sm">ED</span>
+                </div>
+                <div>
+                  <div className="font-semibold">Emily Davis</div>
+                  <div className="text-sm text-muted-foreground">Marketing Manager</div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -201,7 +203,7 @@ const Hero = () => {
               Ready to get started?
             </h2>
             <p className="text-primary-foreground/80 text-lg mb-8">
-              Join thousands of users who trust Share Panda for their file sharing needs.
+              Join thousands of users who trust File Share for their file sharing needs.
             </p>
             <button
               onClick={handleGetStarted}
@@ -253,7 +255,7 @@ const Hero = () => {
             </div>
           </div>
           <div className="border-t mt-12 pt-8 text-center text-sm text-muted-foreground">
-            © 2024 Share Panda. All rights reserved.
+            © {new Date().getFullYear()} File Share. All rights reserved.
           </div>
         </div>
       </footer>

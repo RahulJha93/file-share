@@ -1,7 +1,8 @@
 "use client"
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import React, { useState } from 'react';
+import { usePathname } from 'next/navigation';
+import Image from 'next/image';
+import React, { useState, useEffect } from 'react';
 import { Upload, Files, Zap, X } from 'lucide-react';
 
 const menuList = [
@@ -11,13 +12,30 @@ const menuList = [
 ];
 
 const SideNav = ({ isOpen, toggleSidebar }) => {
-  const [tabActive, setTabActive] = useState('Upload');
-  const navigate = useRouter();
+  const pathname = usePathname();
+  const [isDarkMode, setIsDarkMode] = useState(false);
 
-  const handleNavigation = (label, path) => {
-    setTabActive(label);
-    navigate.push(path);
-    if (toggleSidebar) toggleSidebar();
+  useEffect(() => {
+    // Check if dark mode is enabled
+    const isDark = document.documentElement.classList.contains('dark');
+    setIsDarkMode(isDark);
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    });
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    return () => observer.disconnect();
+  }, []);
+
+  const isActive = (path) => {
+    return pathname === path;
   };
 
   return (
@@ -37,12 +55,15 @@ const SideNav = ({ isOpen, toggleSidebar }) => {
       </div>
 
       {/* Logo */}
-      <div className="border-b border-border px-4 py-3 text-center h-16 flex items-center justify-center">
-        <Link href="/" className="flex items-center gap-2 justify-center">
-          <div className="flex h-6 w-6 items-center justify-center rounded-md bg-primary text-primary-foreground">
-            <span className="text-xs font-bold">SP</span>
-          </div>
-          <span className="font-bold">Share Panda</span>
+      <div className="border-b border-border px-4 py-3 h-16 flex items-center">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src={isDarkMode ? "/white.png" : "/black.png"}
+            alt="SharePanda Logo"
+            width={56}
+            height={56}
+            className="w-32 h-32 object-contain"
+          />
         </Link>
       </div>
 
@@ -50,19 +71,21 @@ const SideNav = ({ isOpen, toggleSidebar }) => {
       <div className="flex flex-col p-2">
         {menuList.map((list) => {
           const Icon = list.icon;
+          const active = isActive(list.path);
           return (
-            <button
+            <Link
               key={list.label}
+              href={list.path}
               className={`flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium transition-colors ${
-                tabActive === list.label
+                active
                   ? 'bg-primary text-primary-foreground'
                   : 'text-muted-foreground hover:bg-accent hover:text-accent-foreground'
               }`}
-              onClick={() => handleNavigation(list.label, list.path)}
+              onClick={toggleSidebar}
             >
               <Icon className="h-4 w-4" />
               {list.label}
-            </button>
+            </Link>
           );
         })}
       </div>

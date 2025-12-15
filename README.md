@@ -1,6 +1,6 @@
-# Share Panda - File Sharing Platform
+# File Share - File Sharing Platform
 
-Share Panda is a secure and user-friendly file-sharing platform that allows you to upload files, share short URLs with friends, protect them with passwords, or send them directly via email. Built using modern technologies like [Clerk](https://clerk.dev/), [Supabase](https://supabase.com/), [Next.js](https://nextjs.org/), and [Tailwind CSS](https://tailwindcss.com/).
+File Share is a secure and user-friendly file-sharing platform that allows you to upload files, share short URLs with friends, protect them with passwords, or send them directly via email. Built using modern technologies like [Clerk](https://clerk.dev/), [Supabase](https://supabase.com/), [Next.js](https://nextjs.org/), and [Tailwind CSS](https://tailwindcss.com/).
 
 ## Features
 
@@ -95,5 +95,5 @@ Contributions and feedback are welcome! Check out the [GitHub repository](https:
 
 ---
 
-Happy sharing with Share Panda!
+Happy sharing with File Share!
 

@@ -62,4 +62,51 @@
   .text-balance {
     text-wrap: balance;
   }
+  
+  .dot-pattern {
+    background-image: radial-gradient(circle, hsl(var(--muted-foreground) / 0.2) 1px, transparent 1px);
+    background-size: 20px 20px;
+    background-position: 0 0;
+  }
+}
+
+@layer base {
+  @keyframes float {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-20px);
+    }
+  }
+
+  @keyframes float-delay-1 {
+    0%, 100% {
+      transform: translateY(-10px);
+    }
+    50% {
+      transform: translateY(-30px);
+    }
+  }
+
+  @keyframes float-delay-2 {
+    0%, 100% {
+      transform: translateY(-5px);
+    }
+    50% {
+      transform: translateY(-25px);
+    }
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-float-delay-1 {
+    animation: float-delay-1 4s ease-in-out infinite;
+  }
+
+  .animate-float-delay-2 {
+    animation: float-delay-2 5s ease-in-out infinite;
+  }
 }

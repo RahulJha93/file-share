@@ -62,7 +62,7 @@ const FileUploadCard = () => {
       console.log('✅ File uploaded to storage successfully!');
       console.log('💾 Now inserting into database...');
 
-      const fileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/file-share/${data.fullPath}`;
+      const fileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/uploads/${data.fullPath}`;
       console.log('🔗 Generated file URL:', fileUrl);
 
       const dbPayload = {

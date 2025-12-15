@@ -1,6 +1,7 @@
 "use client";
 import { useParams } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import Image from "next/image";
 import {supabase} from './../../../supabaseClient'
 import { toast } from "react-toastify";
 import { Download, Lock, FileText, Image as ImageIcon, Video, Music, Archive } from 'lucide-react';
@@ -9,6 +10,26 @@ const FileView = () => {
   const [password, setPassword] = useState("");
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isDarkMode, setIsDarkMode] = useState(false);
+
+  useEffect(() => {
+    // Check if dark mode is enabled
+    const isDark = document.documentElement.classList.contains('dark');
+    setIsDarkMode(isDark);
+    
+    // Listen for theme changes
+    const observer = new MutationObserver(() => {
+      const isDark = document.documentElement.classList.contains('dark');
+      setIsDarkMode(isDark);
+    });
+    
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['class']
+    });
+    
+    return () => observer.disconnect();
+  }, []);
   
   const getFileIcon = (fileType) => {
     if (!fileType) return FileText;
@@ -130,9 +151,13 @@ const FileView = () => {
           {/* Header */}
           <div className="text-center mb-8">
             <div className="flex items-center justify-center gap-2 mb-3">
-              <div className="w-8 h-8 bg-slate-900 dark:bg-white rounded-md flex items-center justify-center">
-                <span className="text-white dark:text-slate-900 font-bold text-sm">SP</span>
-              </div>
+              <Image
+                src={isDarkMode ? "/white.png" : "/black.png"}
+                alt="SharePanda Logo"
+                width={32}
+                height={32}
+                className="w-8 h-8"
+              />
               <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
                 SHARE<span className="text-blue-600">PANDA</span>
               </h1>
