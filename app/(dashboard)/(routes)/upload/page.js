@@ -62,7 +62,8 @@ const FileUploadCard = () => {
       console.log('✅ File uploaded to storage successfully!');
       console.log('💾 Now inserting into database...');
 
-      const fileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/uploads/${data.fullPath}`;
+      // data.fullPath already includes the bucket name, so we just use data.path (file name only)
+      const fileUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/uploads/${data.path}`;
       console.log('🔗 Generated file URL:', fileUrl);
 
       const dbPayload = {

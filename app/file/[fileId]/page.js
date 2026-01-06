@@ -153,17 +153,14 @@ const FileView = () => {
             <div className="flex items-center justify-center gap-2 mb-3">
               <Image
                 src={isDarkMode ? "/white.png" : "/black.png"}
-                alt="SharePanda Logo"
-                width={32}
-                height={32}
-                className="w-8 h-8"
+                alt="File Share Logo"
+                width={56}
+                height={56}
+                className="w-32 h-32 object-contain"
               />
-              <h1 className="text-2xl font-bold text-slate-900 dark:text-white">
-                SHARE<span className="text-blue-600">PANDA</span>
-              </h1>
             </div>
             <h2 className="text-lg font-semibold text-slate-800 dark:text-slate-200 mb-2">
-              Shared the file with You
+              Someone shared a file with you
             </h2>
             <p className="text-slate-600 dark:text-slate-400 text-sm">
               Find file details below
@@ -241,7 +238,7 @@ const FileView = () => {
         {/* Security Info */}
         <div className="mt-6 text-center">
           <p className="text-sm text-slate-600 dark:text-slate-400">
-            🔒 Secure file sharing powered by SharePanda
+            🔒 Secure file sharing
           </p>
         </div>
       </div>

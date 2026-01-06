@@ -5,13 +5,18 @@ import { useParams } from 'next/navigation'
 import { toast } from "react-toastify";
 import { Copy, Lock, Mail, Download, Eye } from 'lucide-react';
 import Image from 'next/image';
+import { useUser } from '@clerk/nextjs';
+
 const FilePreview = () => {
   const params = useParams()
+  const { user } = useUser();
   const [isPasswordEnabled, setIsPasswordEnabled] = useState(false);
   const [password, setPassword] = useState("");
   const [shortUrl, setShortUrl] = useState("");
   const [fileData, setFileData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [recipientEmail, setRecipientEmail] = useState("");
+  const [sendingEmail, setSendingEmail] = useState(false);
 
   const copyToClipboard = () => {
     navigator.clipboard.writeText(fileData?.short_url);
@@ -19,8 +24,49 @@ const FilePreview = () => {
     toast.success("Short URL copied to clipboard!");
   };
 
-  const handleSendMail = () => {
-    toast.error("This Service is down !");
+  const handleSendMail = async () => {
+    if (!recipientEmail) {
+      toast.error("Please enter an email address");
+      return;
+    }
+
+    // Basic email validation
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(recipientEmail)) {
+      toast.error("Please enter a valid email address");
+      return;
+    }
+
+    setSendingEmail(true);
+    try {
+      const response = await fetch('/api/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          to: recipientEmail,
+          fileName: fileData?.file_name,
+          fileUrl: fileData?.file_url,
+          shortUrl: fileData?.short_url,
+          senderName: user?.fullName || user?.primaryEmailAddress?.emailAddress || 'Someone',
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to send email');
+      }
+
+      toast.success("Email sent successfully!");
+      setRecipientEmail("");
+    } catch (error) {
+      console.error('Email error:', error);
+      toast.error(error.message || "Failed to send email");
+    } finally {
+      setSendingEmail(false);
+    }
   };
 
   const storePassword =async () => {
@@ -235,14 +281,27 @@ const FilePreview = () => {
                 <input
                   type="email"
                   placeholder="Enter email address"
+                  value={recipientEmail}
+                  onChange={(e) => setRecipientEmail(e.target.value)}
                   className="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                  disabled={sendingEmail}
                 />
                 <button
                   onClick={handleSendMail}
+                  disabled={sendingEmail}
                   className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4"
                 >
-                  <Mail className="h-4 w-4 mr-2" />
-                  Send
+                  {sendingEmail ? (
+                    <>
+                      <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                      Sending...
+                    </>
+                  ) : (
+                    <>
+                      <Mail className="h-4 w-4 mr-2" />
+                      Send
+                    </>
+                  )}
                 </button>
               </div>
             </div>
